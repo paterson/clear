@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <link rel="stylesheet" type="text/css" href="app/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="app/css/bootstrap-responsive.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body ng-controller="controller" ng-app="app">
+      <!-- menu -->
+      <div class="container">
+        <div class="masthead">
+          <ul class="nav nav-pills pull-right">
+            <li><a href="#" ng-click="set_page('')">Home</a></li>
+            <li ng-show="permissions.loggedIn()"><a href="#" ng-click="set_page('')">Your Cards</a></li>
+            <li ng-show="permissions.loggedIn()"><a href="#add">Add a Card</a></li>
+            <li ng-show="permissions.loggedIn()"><a href="#" ng-click="set_page('invoices')">Your Invoices</a></li>
+            <li ng-show="permissions.loggedIn()"><a href="#payments">Your Payments</a></li>
+            <li ng-show="permissions.loggedIn()"><a href="#settings">Settings</a></li>
+          </ul>
+          <h3 class="muted">Windmill</h3>
+        </div>
+        <!-- alert boxes here --> 
+        <div class="alert alert-success" ng-show="$scope.success != null">
+          {{$scope.success}}
+        </div>
+        <div class="alert alert-error" ng-show="$scope.error">
+          Something went wrong, we're working on it, pronto.
+        </div>
+
+        <div ng-show='permissions.loggedIn()'>
+          <div ng-show='permissions.cards()'>
+            <ul>
+              <li ng-repeat="card in cards.list">
+                <h3>{{card.name}} - {{card.card_type}}</h3>
+                </p> **** **** **** {{card.last_four}}</p>
+                <p>Delete</p>
+              </li>
+          </div>
+
+          <div ng-show='permissions.invoices()'>
+            <li ng-repeat="invoice in invoices.list">
+              <p>{{invoice.description}} {{invoice.due_since}}</p>
+            </li>
+
+
+            <div ng-show="invoices.list.due.length > 0">
+              Invoices Due
+              <ul>
+                <li ng-repeat="invoice in invoices.list.due">
+                  <p>{{invoice.name}} <!-- extra here --> {{invoice.due_since}}</p>
+                </li>
+              </ul>
+            </div>
+            <div ng-show="invoices.list.refunds.length > 0">
+              Refunds
+              <ul>
+                <li ng-repeat="invoice in invoices.list.refunds">
+                  <p>{{invoice.name}} <!-- extra here --></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div ng-show="invoices.list.successful.length > 0">
+            Successful Invoices
+            <ul>
+              <li ng-repeat="invoice in invoices.list.successful">
+                <p>{{invoice.name}} <!-- extra here --></p>
+              </li>
+            </ul>
+          </div>
+
+          <div ng-show='permissions.payments()'>
+            <ul>
+              <li ng-repeat="payment in payments.list">
+                <p>{{payment.invoice.name}} <!-- extra here --> <!-- currency symbol -->{{payment.invoice.amount}}</p>
+              </li>
+          </div>
+
+          <!-- destroy/add cards -->
+
+          <div ng-show='permissions.delete'>
+            <p>Are you sure?</p>
+            <p ng-click="cards.destroy">Yes</p>
+            <p>Cancel</p>
+          </div>
+
+          <div ng-show='permissions.add'>
+            <h2>Add Card</h2>
+             <div class="payment-errors"></div>
+
+             <form id="payment-form">
+                <input class="card-holder-name" type="text" size="30" placeholder="Cardholder's Name" value="{{$scope.me.name}}"/>
+                <br>
+                <input class="card-number" type="text" size="20" placeholder="Card Number"/>
+                <br>
+                <input class="card-cvc" type="text" size="4" placeholder="CVV"/>
+                <br>
+                <input class="card-expiry-month" type="text" size="2" placeholder="Expires Month"/>
+                <span> / </span>
+                <input class="card-expiry-year" type="text" size="4" placeholder="Expires Year"/>
+                <br>
+                <button class="btn btn-success btn-large submit-button" type="submit">Add</button>
+             </form>
+            </div>
+
+          
+
+        </div>
+        <div ng-hide='permissions.loggedIn()'>
+          <!-- tab here -->
+          <div>
+            <h2>Login</h2>
+            <form ng-submit="login()">
+            <input type='text' placeholder='Email Address' ng-model="forms.login.email" />
+            <br>
+            <input type='password' placeholder='Password' ng-model="forms.login.password" />
+            <br>
+            <input class="btn btn-info btn-large" type="submit" value="Login" />
+          </div>
+          <div>
+            <h2>Register</h2>
+            <form ng-submit="register()">
+              <input type="text" placeholder='Your Name' ng-model="forms.register.name" />
+              <br>
+              <input type='text' placeholder='Email Address' ng-model="forms.register.email" />
+              <br>
+              <input type='password' placeholder='Password' ng-model="forms.register.password" />
+              <br>
+              <input class="btn btn-info btn-large" type="submit" value="Register" />
+            </form>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript" src='app/js/angular.min.js'></script>
+      <script type="text/javascript" src="https://bridge.paymill.de/"></script>
+      <script type="text/javascript" src="app/js/script.js"></script>
+    </body>
+  </html>

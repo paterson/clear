@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Clear</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/custom-styles.css">
+
+  <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+  <!-- Fav and touch icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+</head>
+
+
+
+<body ng-controller="controller" ng-app="iframe">
+  <section id="signup">
+  <div class="container">
+    <div class="row margin-120">
+
+    <div ng-hide="permissions.loggedIn()">
+    <!--Content-->
+      
+          
+            <div id="login" class="span6 offset3 text-center signup">
+              <h3>Clear</h3><br />
+              
+              <p><a href="#" id='card_button'>Pay by Credit Card</p>
+               
+               <p>------------ OR -------------</p>
+              
+              <form id="signup-form" class="form-horizontal" ng-submit="login()">
+              <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                    <input type="text" ng-model="forms.login.email" class="input-xlarge" placeholder="Email">
+                  </div>
+                </div>
+              </div>
+                                          
+              <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                    <input type="Password" ng-model="forms.login.password" class="input-xlarge" placeholder="Password">
+                  </div>
+                </div>
+              </div>
+          
+              <div class="control-group">
+                  <div class="controls">
+                   <button type="submit" id="login_button" class="btn-main">Login</button>
+                  </div>
+              </div>
+      
+              </form>
+          
+          </div><!--End Span6-->
+
+            <div id="card" class="span6 offset3 text-center signup" style="display:none">
+              <h3>Clear</h3><br />
+              
+              <form id="card-form" class="form-horizontal" ng-submit="cards.create()">
+                <div class="control-group">
+                  <div class="controls">
+                      <div class="input-prepend">
+                      <input type="text" class="input-xlarge" id="card_number" name="card_number" placeholder="Card Number" maxlength="22" ng-model="card_number">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <div class="controls">
+                      <div class="input-prepend">
+                      <input type="text" class="input-xlarge" id="expires" name="expires" placeholder="Expires" ng-model="expires">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <div class="controls">
+                      <div class="input-prepend">
+                      <input type="text" class="input-xlarge" id="cvv" name="cvv" placeholder="CVV" ng-model="cvv">
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" id="stripe_token" ng-model="forms.card.stripe_token"/>
+
+                <input type="hidden" id="card_type" ng-model+"forms.card.card_type" />
+                                            
+                <div class="control-group">
+                  <div class="controls">
+                   <input type="submit" value="Pay Joe's Hardware Store $25" class="btn-main" />
+                  </div>
+                </div>
+          
+              </form>
+            </div>
+            
+            <div id="join_clear" style="display:none" class="span6 offset3 text-center signup" >
+              <h3>Clear</h3><br />
+
+              <p>You just paid Joe's Hardware Store $25! That was fun. If you want, add an email address and password below and we'll create a clear account for you. We'll add the card you just paid with to your account, so next time on any website that uses clear you can pay in seconds. We'll email you receipts aswell!
+
+              <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                    <input type="text" ng-model="forms.register.email" class="input-xlarge" placeholder="Email">
+                  </div>
+                </div>
+              </div>
+                                          
+              <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                    <input type="Password" ng-model="forms.register.password" class="input-xlarge" placeholder="Password">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                  <div class="controls">
+                   <button type="submit" id="login_button" ng-click="register()" class="btn-main">Join</button>
+                   <button type="submit" id="login_button" ng-click="pay.unauthenciated()" class="btn-main">I'm okay, thanks</button>
+                  </div>
+              </div>
+              
+          </div><!--End Span6-->
+          
+        
+    </div>
+
+    <div class="span6 offset3 text-center signup" ng-show="permissions.loggedIn()">
+      <h3>Clear</h3><br />
+
+      <div ng-show='permissions.cards()'>
+
+        <p ng-show="cards.list.length > 0"><a href="#" id='card_button'>Add another Credit Card</p>
+        <p ng-show="cards.list.length == 0"><a href="#" id='card_button'>Add  Credit Card</p> <!-- *another* if number of cards > 0, 'a' if == 0 -->
+         <!-- show only if num cards > 0 -->
+        <div ng-show="cards.list.length > 0">
+          <p>------------ Or Select One Of These -------------</p>
+            <p ng-class="{true:'dark-gray', false:'light-gray'}[isSelected(card.id)]" ng-click="cards.choose(card)" ng-repeat="card in cards.list">
+              <i class="icon-credit-card"></i> {{{true:card.name, false: card.type (card.last_four)}[!!card.name]}}
+            </p>
+            <br>
+            <div class="control-group">
+                <div class="controls">
+                 <button type="submit" ng-click="pay.authenciated()" class="btn-main" ng-disabled="!permissions.pay()" disabled="disabled">Pay Joe's Hardware Store $25</button>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div ng-show='permissions.paid()'>
+        <p>You just paid Joe's Hardware Store $25! That was fun.</p>
+        <p>Your receipt is below.</p>
+        <p>Love,</p>
+        <p>The Clear Team</p>
+      </div>
+    </div>
+
+      </div><!--End Row-->
+    </div><!--End Container-->
+    </section>
+    
+      
+    
+    <!-- Javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+    <script type="text/javascript" src='js/angular.min.js'></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/rotate.js"></script>
+   
+    </body>
+</html>

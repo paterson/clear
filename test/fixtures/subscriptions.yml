@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  description: MyString
+  paymill_id: MyString
+  user_id: MyString
+  card_id: MyString
+  store_id: MyString
+  amount: 1
+  frequency: 2013-08-10 17:34:00
+  next_due: 2013-08-10 17:34:00
+
+two:
+  description: MyString
+  paymill_id: MyString
+  user_id: MyString
+  card_id: MyString
+  store_id: MyString
+  amount: 1
+  frequency: 2013-08-10 17:34:00
+  next_due: 2013-08-10 17:34:00

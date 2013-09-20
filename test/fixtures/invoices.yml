@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  description: MyString
+  paymill_id: MyString
+  user_id: MyString
+  card_id: MyString
+  store_id: MyString
+  amount: 1
+  status: MyString
+  currency: MyString
+
+two:
+  description: MyString
+  paymill_id: MyString
+  user_id: MyString
+  card_id: MyString
+  store_id: MyString
+  amount: 1
+  status: MyString
+  currency: MyString
