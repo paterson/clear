@@ -11,18 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130825120032) do
+ActiveRecord::Schema.define(:version => 20130920202300) do
 
   create_table "cards", :force => true do |t|
     t.string   "last_four"
     t.datetime "expires"
-    t.string   "user_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "card_type"
     t.string   "name"
     t.string   "stripe_token"
     t.string   "stripe_id"
+    t.integer  "user_id"
   end
 
   create_table "invoices", :force => true do |t|
