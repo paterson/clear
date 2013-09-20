@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApplicationController
       @user.reset_authentication_token! if @user.reset_token
       sign_in('user',@user)
     else
-      render 'api/v1/users/error'
+      render 'api/v1/unauthorized'
     end
   end
 
