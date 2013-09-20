@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   require "stripe"
   Stripe.api_key = "sk_test_DoXPXUXZSn0F8jg1ccNvUsV6"
+  skip_before_filter :auth, :only => [:show,:create]
   def update
   end
 
